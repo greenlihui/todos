@@ -5,9 +5,9 @@ export interface TodoItem {
 }
 
 export enum VisibilityFilter {
-    SHOW_ALL,
-    SHOW_COMPLETE,
-    SHOE_ACTIVE
+    SHOW_ALL = 'SHOW ALL',
+    SHOW_COMPLETE = 'SHOW COMPLETE',
+    SHOE_ACTIVE = 'SHOW ACTIVE'
 }
 
 export enum ActionType {

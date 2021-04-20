@@ -1,12 +1,13 @@
+import { MouseEvent, useMemo } from 'react';
 import { toggleTodo } from '../actions';
 import { useAppDispatch, useAppSelector } from '../hooks';
-import { TodoItem, VisibilityFilter } from '../types';
+import { VisibilityFilter } from '../types';
 
 export default () => {
     const dispatch = useAppDispatch();
-    const todos = useAppSelector(state => state.todos);
+    const allTodos = useAppSelector(state => state.todos);
     const filter = useAppSelector(state => state.filter);
-    const itemFilterFunc = (item: TodoItem) => {
+    const todos = useMemo(() => allTodos.filter(item => {
         switch (filter) {
             case VisibilityFilter.SHOW_ALL:
                 return true;
@@ -15,13 +16,13 @@ export default () => {
             case VisibilityFilter.SHOE_ACTIVE:
                 return !item.completed;
         }
-    };
+    }), [allTodos, filter]);
     return (
         <section>
             <ul>
-                {todos.filter(itemFilterFunc).map(item => (
+                {todos.map(item => (
                     <li key={item.id}
-                        onClick={e => dispatch(toggleTodo(item.id))}
+                        onClick={(e: MouseEvent<HTMLLIElement>) => {dispatch(toggleTodo(item.id))}}
                         style={{textDecoration: (item.completed ? 'line-through' : 'none'), cursor: 'pointer'}}
                     >{item.content}</li>
                 ))}

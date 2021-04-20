@@ -6,36 +6,24 @@ import { VisibilityFilter } from '../types';
 const FilterButton = (props: {
     filter: VisibilityFilter
 }) => {
-    const filterMap: {[key in VisibilityFilter]: string} = {
-    }
+    const dispatch = useAppDispatch();
+    const currentFilter = useAppSelector(state => state.filter);
+    const onClick = (e: MouseEvent) => {
+        dispatch(setVisibilityFilter(props.filter))
+    };
     return (
-        <button ></button>
+        <button onClick={onClick} disabled={props.filter === currentFilter}>
+            {props.filter.toString()}
+        </button>
     );
 }
 
 export default () => {
-    const filter = useAppSelector(state => state.filter);
-    const dispatch = useAppDispatch();
-    const onFilterClick = useCallback((filter: VisibilityFilter) => (e: MouseEvent) => {
-        dispatch(setVisibilityFilter(filter));
-    }, [dispatch]);
     return (
         <section>
-            <button 
-                onClick={onFilterClick(VisibilityFilter.SHOW_ALL)} 
-                disabled={filter === VisibilityFilter.SHOW_ALL}>
-                    SHOW ALL
-            </button>
-            <button 
-                onClick={onFilterClick(VisibilityFilter.SHOW_COMPLETE)} 
-                disabled={filter === VisibilityFilter.SHOW_COMPLETE}>
-                    SHOW COMPLETED
-            </button>
-            <button 
-                onClick={onFilterClick(VisibilityFilter.SHOE_ACTIVE)} 
-                disabled={filter === VisibilityFilter.SHOE_ACTIVE}>
-                    SHOW ACTIVE
-            </button>
+            <FilterButton filter={VisibilityFilter.SHOW_ALL} />
+            <FilterButton filter={VisibilityFilter.SHOW_COMPLETE} />
+            <FilterButton filter={VisibilityFilter.SHOE_ACTIVE} />
         </section>
     );
 }

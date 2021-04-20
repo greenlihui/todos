@@ -5,7 +5,7 @@ import { useAppDispatch } from '../hooks';
 export default () => {
     const inputRef = useRef<HTMLInputElement>(null);
     const dispatch = useAppDispatch();
-    const onSubmit = useCallback((e: FormEvent) => {
+    const onSubmit = (e: FormEvent) => {
         e.preventDefault();
         if (!inputRef.current?.value.trim()) {
             return;
@@ -14,7 +14,7 @@ export default () => {
             dispatch(addTodo(inputRef.current.value));
             inputRef.current.value = '';
         }
-    }, [dispatch]);
+    };
     return (
         <section>
             <form onSubmit={onSubmit}>
